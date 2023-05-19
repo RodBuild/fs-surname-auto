@@ -1,0 +1,21 @@
+{
+  "name": "my-new-project",
+  "type": "module",
+  "devDependencies": {
+    "@wdio/cli": "^8.10.2",
+    "@wdio/local-runner": "^8.10.2",
+    "@wdio/mocha-framework": "^8.10.2",
+    "@wdio/spec-reporter": "^8.10.2",
+    "chromedriver": "^113.0.0",
+    "wdio-chromedriver-service": "^8.1.1"
+  },
+  "scripts": {
+    "wdio-all": "wdio run ./wdio.conf.js --suite all",
+    "wdio-current": "wdio run ./wdio.conf.js --suite current",
+    "wdio-extra": "wdio run ./wdio.conf.js --suite extra"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "fs-auto-page": "^1.0.0"
+  }
+}
