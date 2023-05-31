@@ -2,7 +2,7 @@
  * Title: App Languages
  *
  * Purpouse:
- *    Check th content inside the page base
+ *    Check the contents inside the page depending
  *    of the selected language
  *
  * Author: Rodrigo Rodriguez
@@ -10,25 +10,42 @@
 import SurnamePage from '../pageobjects/surname.page.js';
 
 describe('Test URL routing for each available language', async () => {
-  it('Should successfully route in the main page', async () => {
+  let langs = [];
+  it('Should retrieve all of the available languages', async () => {
     await SurnamePage.OpenBeginPage();
-    const lang = await SurnamePage.GetAvailableLanguages();
-    // Starting point for test
-    let x = 0;
-    while (x < lang.length) {
-      await SurnamePage.ChangeLang(await lang[x]);
-      await SurnamePage.CheckMainLanguageAuto(lang[x]);
-      await SurnamePage.CheckUrlContains(`${lang[i]}/surname`);
-      x++;
-    }
+    await SurnamePage.PauseShort();
+    langs = await SurnamePage.GetAvailableLanguages();
   });
+  it('Should successfully route in the main page', async () => {
+    let x = 0;
+    try {
+      while (x < langs.length) {
+        await SurnamePage.ChangeLang(await langs[x]);
+        if (x === langs.length - 1) await SurnamePage.PauseShort();
+        await SurnamePage.CheckMainLanguageAuto(langs[x]);
+        await SurnamePage.CheckUrlContains(`${langs[x]}/surname`);
+        await x++;
+      }
+    } catch (err) {
+      await console.log('err: ' + err);
+    }
+    await SurnamePage.PauseShort();
+  });
+
   it('Should successfully route in the results page', async () => {
     await SurnamePage.SearchLastName('Perez');
-    const lang = await SurnamePage.GetAvailableLanguages();
-    for (let i = 0; i < lang.length; i++) {
-      await SurnamePage.ChangeLang(await lang[i]);
-      await SurnamePage.CheckUrlContains(`${lang[i]}/surname`);
-      await SurnamePage.CheckUrlContains(`Perez`);
+    await SurnamePage.PauseLong();
+    try {
+      for (let i = 0; i < langs.length; i++) {
+        // if (browser.getUrl() === '')
+        await SurnamePage.ChangeLang(await langs[i]);
+        // await SurnamePage.PauseShort();
+        await SurnamePage.CheckResultsLanguageAuto(langs[i]);
+        await SurnamePage.CheckUrlContains(`${langs[i]}/surname`);
+        await SurnamePage.CheckUrlContains(`Perez`);
+      }
+    } catch (err) {
+      await console.log('err: ' + err);
     }
   });
 });

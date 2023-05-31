@@ -15,6 +15,7 @@
     "wdio-extra": "wdio run ./wdio.conf.js --suite extra"
   },
   "dependencies": {
+    "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "fs-auto-page": "^1.0.0"
   }

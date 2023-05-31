@@ -9,7 +9,7 @@
  * Author: Rodrigo Rodriguez
  */
 
-import SurnamePage from '../pageobjects/surname.page.js';
+import SurnamePage from '../../pageobjects/surname.page.js';
 
 describe('Test URL routing for specific routes', () => {
   it('Should route from /surname to /en/surname', async () => {

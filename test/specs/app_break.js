@@ -39,4 +39,11 @@ describe('Test', () => {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis convallis purus vel ligula sodales elementum. Mauris sem metus, au';
     await SurnamePage.SearchLastName(text);
   });
+  //   it('Delete test', async () => {
+  //     await browser.url('https://beta.familysearch.org/pt/');
+  //     await browser.setWindowSize(1200, 1000);
+  //     const header = await $('header > div:nth-child(1) nav');
+  //     await SurnamePage.CheckElemExists(header);
+  //     //   await expect(await header.waitForExist({ reverse: true })).toBe(true);
+  //   });
 });

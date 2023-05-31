@@ -29,8 +29,8 @@ export const config = {
       './test/specs/app_functionality.js',
       './test/specs/app_components.js',
     ],
-    current: ['./test/specs/app_routing.js'],
-    extra: ['./test/specs/app_languages.js'],
+    current: ['./test/specs/Social/save_buttons.js'],
+    extra: ['./test/specs/External/**.js'],
   },
   // Patterns to exclude.
   exclude: [

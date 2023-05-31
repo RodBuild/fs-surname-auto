@@ -1,4 +1,5 @@
-// import Page from '../../../Source/page.mjs';     // Local
+import { expect as expectChai } from 'chai';
+// import Page from '../../../Source/page.mjs'; // Local
 import Page from 'fs-auto-page';                    // Online
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -136,6 +137,15 @@ class SurnamePage extends Page {
     // await Page.opennewtab();
     await Page.loginfacebook(process.env.FB_EMAIL, process.env.FB_PASSWORD);
   }
+  /**
+   * Login into Twitter® with a default account
+   */
+  async twLogin() {
+    await Page.logintwitter(process.env.TW_USERNAME, process.env.TW_PASSWORD);
+  }
+  async debugLogin() {
+    await Page.logintwitter(process.env.TW_USERNAME, process.env.TW_PASSWORD);
+  }
 
   OpenBeginPage() {
     return Page.open('/surname');
@@ -172,6 +182,12 @@ class SurnamePage extends Page {
   CheckUrlContains(text) {
     return expect(browser).toHaveUrlContaining(text);
   }
+  CheckTitleContains(text) {
+    return expect(browser).toHaveTitleContaining(text);
+  }
+  async CheckMetaDescriptionContains(text) {
+    return expectChai(await this.GetMetaDescription()).to.contain(`${text}`);
+  }
   /**
    * Check if url containts specific text
    * @param element DOM element
@@ -183,26 +199,46 @@ class SurnamePage extends Page {
   CheckInputValue(input, text) {
     return expect(input).toHaveValue(text);
   }
+
+  /**
+   * Check if an element exists in the DOM
+   * @param element selector element
+   */
+  async CheckElemExists(element) {
+    await expect(await element.waitForExist({ timeoutMsg: 'ERROR: Element was not found' })).toBe(
+      true
+    );
+    // return element.waitForExist();
+  }
+  /**
+   * Check if url containts specific text
+   * @param element Selector Element
+   */
+  async CheckElemNoExists(element) {
+    await expect(
+      await element.waitForExist({ reverse: true, timeoutMsg: 'ERROR: Element was found' })
+    ).toBe(true);
+  }
+
   ScrollMiddlePage() {
     return Page.scroll(0, 1300);
   }
-  /**
-   *
-   * @contex **Main Page only**
-   */
-  GetMainSearchSpecificButton() {
-    return $('[class="css-1dhwrh5 linkCss_l50ksak"]');
+  GetMetaDescription() {
+    return $('meta[name="description"]').getAttribute('content');
   }
+
   ChangeLang(lang) {
     return Page.changelanguage(lang);
   }
+
   /**
-   * Check if passed values (in respective language) match the value of the element
    * Check if header and button elements of the
    * surname base page match the passed values
+   *
    * @context **Main Page only**
    * @param header - expected text to find in the header element
    * @param button - expected text to find in the button element
+   * @param debug - occassions when data is not consistent (arabic languages)
    */
   async CheckMainLanguage(header, button, debug) {
     // Do task if not debbugging
@@ -217,7 +253,7 @@ class SurnamePage extends Page {
     // await expect(await $('[data-testid="surnames-search-button"]')).toHaveTextContaining(button);
   }
   /**
-   * Check contents of page according to passed to language
+   * Check contents of main page according to passed language
    * @param lang language based on two characters. Ex: en-english, it-italian
    */
   // Pretty much a bunch of if-statements 🤫
@@ -412,190 +448,190 @@ class SurnamePage extends Page {
     await expect(await this.GetTopFindButton()).toHaveTextContaining(button);
   }
   /**
-   * **NOT FUNCTIONAL:** Check contents of page according to passed to language
+   * Check contents of results page according to passed language
    * @param lang language based on two characters. Ex: en-english, it-italian
    */
   // Pretty much a bunch of if-statements 🤫
   async CheckResultsLanguageAuto(lang) {
     // Bahasa Indonesia
     if (lang == 'id') {
-      await this.CheckMainLanguage('Masukkan nama', 'TEMUKAN');
+      await this.CheckResultsLanguage('Sejarah Keluarga', 'CARI');
     }
     // Bahasa Melayu
     else if (lang == 'ms') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Sejarah Keluarga', 'CARI');
     }
     // Cebuano
     else if (lang == 'ceb') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Kasaysayan sa Pamilya', 'MANGITA');
     }
     // Cesky
     else if (lang == 'cs') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Rodinná historie osob', 'VYHLEDAT');
     }
     // Dansky
     else if (lang == 'da') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('historie', 'SØG');
     }
     // Deutsch
     else if (lang == 'de') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Geschichte der', 'Suchen'); //Translation service's issue
     }
     // Eesti
     else if (lang == 'et') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('pereajalugu', 'OTSI');
     }
     // English
     else if (lang == 'en') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Family History', 'SEARCH');
     }
     // Espanol
     else if (lang == 'es') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Historia familiar', 'BUSCAR');
     }
     // Faka-tonga
     else if (lang == 'to') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Hisitōlia Fakafāmilí', 'KUMI');
     }
     // Francais
     else if (lang == 'fr') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Histoire familiale', 'RECHERCHER');
     }
     // Gagana Samoa
     else if (lang == 'sm') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Talafaasolopito o le Aiga', 'SAILI');
     }
     // Hrvatski
     else if (lang == 'hr') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Obiteljska povijest', 'TRAŽI');
     }
     // Italiano
     else if (lang == 'it') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Storia familiare del', 'CERCA');
     }
     // Kreyol Ayisyen
     else if (lang == 'ht') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Istwa Familyal', 'CHÈCHE'); //Lastname does not have space
     }
     // Latviesu
     else if (lang == 'lv') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('ģimenes vēsture', 'MEKLĒT');
     }
     // Lietuviu
     else if (lang == 'lt') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Giminės istorija', 'IEŠKOTI');
     }
     // Magyar
     else if (lang == 'hu') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('család története', 'KERESÉS');
     }
     // Malagasy
     else if (lang == 'mg') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Tantaram-pianakaviana', 'HIKAROKA');
     }
     // Nederlands
     else if (lang == 'nl') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Geschiedenis familie', 'ZOEKEN');
     }
     // Norsk
     else if (lang == 'no') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Perez Slektshistorie', 'SØK');
     }
     // Polski
     else if (lang == 'pl') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Historia rodziny', 'SZUKAJ');
     }
     // Portugues
     else if (lang == 'pt') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('História da família', 'PESQUISAR');
     }
     // Romana
     else if (lang == 'ro') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Istoria familiei', 'CAUTĂ');
     }
     // Shqip
     else if (lang == 'sq') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Historia Familjare për', 'KËRKOJE');
     }
     // Slovencina
     else if (lang == 'sk') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Rodinná história', 'VYHĽADÁVAŤ');
     }
     // Suomi
     else if (lang == 'fi') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Suvun', 'HAE');
     }
     // Svenska
     else if (lang == 'sv') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Släkthistoria om', 'SÖK');
     }
     // Tagalog
     else if (lang == 'tl') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Kasaysayan ng', 'MAGHANAP');
     }
     // Tieng Viet
     else if (lang == 'vi') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Lịch Sử Gia Đình', 'TÌM KIẾM');
     }
     // Turkce
     else if (lang == 'tr') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Aile Tarihi', 'ARA');
     }
     // Vosa vakaviti
     else if (lang == 'fj') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Tuva Kawa', 'VAKASAQARA');
     }
     // Български
     else if (lang == 'bg') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Семейна история', 'ТЪРСИ');
     }
     // Монгол
     else if (lang == 'mn') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Гэр бүлийн түүх', 'ХАЙХ');
     }
     // Русский
     else if (lang == 'ru') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('История семьи', 'Поиск');
     }
     // Українська
     else if (lang == 'uk') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Сімейна історія', 'ПОШУК');
     }
     // ქართული
     else if (lang == 'ka') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Family History', 'ᲫᲘᲔᲑᲐ'); // No translation seems to be present yet
     }
     // Հայերեն
     else if (lang == 'hy') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Ընտանեկան', 'ՈՐՈՆԵԼ');
     }
     // العربية
     else if (lang == 'ar') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Family History', 'ابحث');
     }
     // فارسی
     else if (lang == 'fa') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('Family History', 'جستجو');
     }
     // ภาษาไทย
     else if (lang == 'th') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('ประวัติครอบครัว', 'ค้นข้อมูล');
     }
     // ភាសាខ្មែរ
     else if (lang == 'km') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('ពង្សប្រវត្តិ', 'ស្វែងរក', true); // Text of button is inconsistent...
     }
     // 한국어
     else if (lang == 'ko') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('씨 가족 역사', '검색');
     }
     // 日本語
     else if (lang == 'ja') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('家の歴史', '検索');
     }
     // 繁體中文 - 國語
     else if (lang == 'zh') {
-      await this.CheckMainLanguage('', '');
+      await this.CheckResultsLanguage('氏家譜', '搜尋');
     }
     // Complain
     else {
@@ -625,8 +661,18 @@ class SurnamePage extends Page {
     const lastname = Math.floor(Math.random() * lastnames.length);
     return lastnames[lastname];
   }
-  async SearchLastName(lastname) {
+  /**
+   * Search for an specific lastname, default is Perez
+   * @param lastname lastname to search
+   */
+  async SearchLastName(lastname = 'Perez') {
     await this.OpenRoute(`/surname?surname=${lastname}`);
+    await browser.waitUntil(
+      async function () {
+        return await (await $$('[data-testid="surnames-search-button"]')[0]).isExisting();
+      },
+      { timeoutMsg: 'There was an error fetching name' }
+    );
     // await this.GetLastNameBox().setValue(lastname);
     // await this.GetFindButton().click();
   }
