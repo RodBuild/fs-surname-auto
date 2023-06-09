@@ -7,9 +7,9 @@
  *
  * Author: Rodrigo Rodriguez
  */
-import { expect as expectChai } from 'chai';
-import * as wdioo from '@wdio/globals';
-import SurnamePage from '../../pageobjects/surname.page.js';
+// import { expect as expectChai } from 'chai';
+// import * as wdioo from '@wdio/globals';
+// import SurnamePage from '../../../pageobjects/surname.page.js';
 
 describe('Test Header for es, pt, it, fr', () => {
   it('Should have header links for English', async () => {

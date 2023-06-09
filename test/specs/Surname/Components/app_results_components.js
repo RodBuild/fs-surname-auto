@@ -12,11 +12,11 @@
  *
  * Author: Rodrigo Rodriguez
  */
-import SurnamePage from '../../pageobjects/surname.page.js';
+import SurnamePage from '../../../pageobjects/surname.page.js';
 
 describe('Test components found in the app', () => {
   const surname = 'Martinez';
- 
+
   it('Should search a new lastname using the top search bar', async () => {
     await SurnamePage.SearchLastName(surname);
     await SurnamePage.PauseShort();

@@ -1,6 +1,6 @@
 import { expect as expectChai } from 'chai';
 // import Page from '../../../Source/page.mjs'; // Local
-import Page from 'fs-auto-page';                    // Online
+import Page from 'fs-auto-page'; // Online
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -164,6 +164,13 @@ class SurnamePage extends Page {
    */
   OpenURL(full_url) {
     return browser.url(`${full_url}`);
+  }
+  /**
+   * Navigate to specific URL
+   * @param url target url to open
+   */
+  OpenPage(url) {
+    return browser.url(url);
   }
 
   PauseShort() {

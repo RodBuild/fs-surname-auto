@@ -24,13 +24,24 @@ export const config = {
   //
   specs: ['./test/specs/**/*.js'],
   suites: {
-    all: [
-      './test/specs/app_routing.js',
-      './test/specs/app_functionality.js',
-      './test/specs/app_components.js',
+    surname: [
+      './test/specs/Surname/Functionality/**.js',
+      './test/specs/Surname/Components/**.js',
+      './test/specs/Surname/Social/**.js',
     ],
-    current: ['./test/specs/Social/save_buttons.js'],
-    extra: ['./test/specs/External/**.js'],
+    surname_core: ['./test/specs/Surname/Core/**.js'],
+    surnames: [
+      './test/specs/Surnames/Functionality/**.js',
+      './test/specs/Surnames/Components/**.js',
+    ],
+    surnames_core: ['./test/specs/Surnames/Core/**.js'],
+    one_search: [
+      './test/specs/One-Search/Functionality/**.js',
+      './test/specs/One-Search/Components/**.js',
+    ],
+    one_search_core: ['./test/specs/One-Search/Core/**.js'],
+    current: ['./test/specs/One-Search/Core/app_components.js'],
+    external: ['./test/specs/External/Home Page/**.js'],
   },
   // Patterns to exclude.
   exclude: [
@@ -138,6 +149,7 @@ export const config = {
   //
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
+  // timeout: keep it high for debugging
   mochaOpts: {
     ui: 'bdd',
     timeout: 6000000,

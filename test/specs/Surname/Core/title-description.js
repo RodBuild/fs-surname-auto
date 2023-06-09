@@ -11,7 +11,7 @@
  * Author: Rodrigo Rodriguez
  */
 
-import SurnamePage from '../../pageobjects/surname.page.js';
+import SurnamePage from '../../../pageobjects/new-surname.page.js';
 
 describe('Title-Description Core', () => {
   it('Should have the correct title when in the home page', async () => {

@@ -9,7 +9,7 @@
  *
  * Author: Rodrigo Rodriguez
  */
-import SurnamePage from '../../pageobjects/surname.page.js';
+import SurnamePage from '../../../pageobjects/surname.page.js';
 
 describe('Similar Names Functionality', () => {
   it('Test for 5+ results', async () => {

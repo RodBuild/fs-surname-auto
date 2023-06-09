@@ -12,7 +12,7 @@
  *
  * Author: Rodrigo Rodriguez
  */
-import SurnamePage from '../../pageobjects/surname.page.js';
+import SurnamePage from '../../../pageobjects/surname.page.js';
 
 describe('Test share buttons', () => {
   const surname = 'Martinez';

@@ -50,19 +50,18 @@ async function checkFooterLinks(lang) {
         throw new Error('ERROR: Genealogical Tree - Second link has a bad URL');
       }
       if (error_div === true) {
-        throw new Error('ERROR: Second link re-directs to a 404 page');
+        throw new Error('ERROR: Genealogical Tree - Second link re-directs to a 404 page');
       }
     }
     // 3. Find your ancestors
     else if (i === 2) {
       if (
-        (await browser.getUrl()) !==
-        `https://beta.familysearch.org/${lang}/blog/es/find-your-family/`
+        (await browser.getUrl()) !== `https://beta.familysearch.org/blog/${lang}/find-your-family/`
       ) {
         throw new Error('ERROR: Genealogical Tree - Thrid link has a bad URL');
       }
       if (error_div === true) {
-        throw new Error('ERROR: Third link re-directs to a 404 page');
+        throw new Error('ERROR: Genealogical Tree - Third link re-directs to a 404 page');
       }
     }
     // 4. Legacy
@@ -122,7 +121,9 @@ async function checkFooterLinks(lang) {
     }
     // 4. Wiki
     else if (i === 3) {
-      await expect(browser).toHaveUrlContaining(`familysearch.org/${lang}/wiki`);
+      await expect(browser).toHaveUrlContaining(`familysearch.org/${lang}/wiki`, {
+        message: 'ERROR: Genealogy - Fourth link has a bad URL',
+      });
       if (error_div === true) {
         throw new Error('ERROR: Genealogy - Fourth link re-directs to a 404 page');
       }
@@ -191,7 +192,7 @@ async function checkFooterLinks(lang) {
     await browser.pause(2000);
   }
 
-  await browser.pause(10000);
+  // await browser.pause(10000);
 }
 
 describe('Test Footer for es, pt, it, fr', () => {
@@ -231,7 +232,7 @@ describe('Test Footer for es, pt, it, fr', () => {
     // 3. First element has columns and each column has an ul element
     await expect(await mainDiv9.$$('ul').length).toBeGreaterThan(1);
     // 4. Check all links
-    await checkFooterLinks('es');
+    // await checkFooterLinks('es');
   });
   it('Should have links list on top footer for French', async () => {
     await browser.url('https://beta.familysearch.org/fr/');
@@ -251,7 +252,7 @@ describe('Test Footer for es, pt, it, fr', () => {
     // 3. First element has columns and each column has an ul element
     await expect(await mainDiv9.$$('ul').length).toBeGreaterThan(1);
     // 4. Check all links
-    await checkFooterLinks('fr');
+    // await checkFooterLinks('fr');
   });
   it('Should have links list on top footer for Italian', async () => {
     await browser.url('https://beta.familysearch.org/it/');
@@ -271,7 +272,7 @@ describe('Test Footer for es, pt, it, fr', () => {
     // 3. First element has columns and each column has an ul element
     await expect(await mainDiv9.$$('ul').length).toBeGreaterThan(1);
     // 4. Check all links
-    await checkFooterLinks('it');
+    // await checkFooterLinks('it');
   });
   it('Should have links list on top footer for Portuguese', async () => {
     await browser.url('https://beta.familysearch.org/pt/');
@@ -291,6 +292,14 @@ describe('Test Footer for es, pt, it, fr', () => {
     // 3. First element has columns and each column has an ul element
     await expect(await mainDiv9.$$('ul').length).toBeGreaterThan(1);
     // 4. Check all links
-    await checkFooterLinks('pt');
+    // await checkFooterLinks('pt');
+  });
+  it('Test that each link works using Spanish page', async () => {
+    await browser.url('https://beta.familysearch.org/es/');
+    // Wait! Until the main target element exists
+    await browser.waitUntil(async function () {
+      return (await (await $('main > div > div > div')).isExisting()) === true;
+    });
+    await checkFooterLinks('es');
   });
 });

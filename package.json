@@ -10,9 +10,14 @@
     "wdio-chromedriver-service": "^8.1.1"
   },
   "scripts": {
-    "wdio-all": "wdio run ./wdio.conf.js --suite all",
+    "wdio-surname": "wdio run ./wdio.conf.js --suite surname",
+    "wdio-surname-core": "wdio run ./wdio.conf.js --suite surname_core",
+    "wdio-surnames": "wdio run ./wdio.conf.js --suite surnames",
+    "wdio-surnames-core": "wdio run ./wdio.conf.js --suite surnames_core",
+    "wdio-onesearch": "wdio run ./wdio.conf.js --suite one_search",
+    "wdio-onesearch-core": "wdio run ./wdio.conf.js --suite one_search_core",
     "wdio-current": "wdio run ./wdio.conf.js --suite current",
-    "wdio-extra": "wdio run ./wdio.conf.js --suite extra"
+    "wdio-external": "wdio run ./wdio.conf.js --suite external"
   },
   "dependencies": {
     "chai": "^4.3.7",
